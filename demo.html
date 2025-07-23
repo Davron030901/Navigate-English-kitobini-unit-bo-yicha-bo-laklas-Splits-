@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Unit Bo'lish - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border-left: 5px solid #4facfe;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .feature-desc {
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .demo-title {
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .unit-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 15px;
+        }
+
+        .unit-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid #4facfe;
+            cursor: pointer;
+        }
+
+        .unit-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            border-left-color: #fa709a;
+        }
+
+        .unit-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .unit-pages {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 1s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 2s;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .action-buttons {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(250, 112, 154, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #e6fffa 0%, #b2f5ea 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #38a169;
+        }
+
+        .instructions h3 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .instructions ol {
+            color: #4a5568;
+            line-height: 1.8;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .tab-container {
+            margin: 30px 0;
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #4facfe;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .demo-card {
+                padding: 25px;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .unit-preview {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 PDF Unit Bo'lish Dasturi</h1>
+            <p>Coursebook va Workbook fayllarini individual unitlarga ajrating</p>
+        </div>
+
+        <div class="demo-card">
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">📖</span>
+                    <div class="feature-title">Coursebook Bo'lish</div>
+                    <div class="feature-desc">60 ta unitga bo'linadi - har bir unit 2 sahifa (12 ta unit × 5 ta lesson)</div>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">📝</span>
+                    <div class="feature-title">Workbook Bo'lish</div>
+                    <div class="feature-desc">49 ta unitga bo'linadi - har xil sahifa miqdorlari bilan</div>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🌐</span>
+                    <div class="feature-title">Web Interfeys</div>
+                    <div class="feature-desc">Drag & drop bilan oson foydalanish, progress tracking va batch download</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">60</div>
+                    <div class="stat-label">Coursebook Units</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">49</div>
+                    <div class="stat-label">Workbook Units</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">109</div>
+                    <div class="stat-label">Jami Units</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2 class="demo-title">Unit Namunalari</h2>
+            
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="showTab('coursebook')">📖 Coursebook</button>
+                    <button class="tab-btn" onclick="showTab('workbook')">📝 Workbook</button>
+                </div>
+                
+                <div id="coursebook" class="tab-content active">
+                    <div class="unit-preview" id="coursebook-units"></div>
+                </div>
+                
+                <div id="workbook" class="tab-content">
+                    <div class="unit-preview" id="workbook-units"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>🚀 Qanday ishlatiladi?</h3>
+            <ol>
+                <li><strong>Python o'rnating</strong> - Python 3.7+ versiyasi kerak</li>
+                <li><strong>Dependencylarni o'rnating:</strong>
+                    <div class="code-block">pip install PyPDF2 Flask Flask-CORS</div>
+                </li>
+                <li><strong>PDF fayllarini qo'ying</strong> - coursebook.pdf va workbook.pdf fayllarini dastur papkasiga</li>
+                <li><strong>Terminal orqali:</strong>
+                    <div class="code-block">python main.py</div>
+                </li>
+                <li><strong>Web interfeys orqali:</strong>
+                    <div class="code-block">python server.py</div>
+                    Keyin brauzerda: http://localhost:5000
+                </li>
+            </ol>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="downloadDemo()">📥 Fayllarni Yuklab Olish</button>
+            <button class="btn btn-secondary" onclick="showInstructions()">📖 To'liq Ko'rsatma</button>
+        </div>
+
+        <div class="demo-section">
+            <h2 class="demo-title">🎯 Xususiyatlar</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <div class="feature-title">Tez va Samarali</div>
+                    <div class="feature-desc">PyPDF2 kutubxonasi yordamida tez PDF bo'lish</div>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">📱</span>
+                    <div class="feature-title">Responsive Dizayn</div>
+                    <div class="feature-desc">Mobil va desktop qurilmalarda mukammal ishlaydi</div>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🎨</span>
+                    <div class="feature-title">Chiroyli Interfeys</div>
+                    <div class="feature-desc">Zamonaviy va foydalanuvchi uchun qulay dizayn</div>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🔒</span>
+                    <div class="feature-title">Xavfsiz</div>
+                    <div class="feature-desc">Mahalliy kompyuterda ishlaydi, ma'lumotlar xavfsiz</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Unit ma'lumotlari
+        const unitData = {
+            coursebook: [
+                {name: "B1+ unit1.1", start: 7, end: 8},
+                {name: "B1+ unit1.2", start: 9, end: 10},
+                {name: "B1+ unit1.3", start: 11, end: 12},
+                {name: "B1+ unit1.4", start: 13, end: 14},
+                {name: "B1+ unit1.5", start: 15, end: 16},
+                {name: "B1+ unit2.1", start: 17, end: 18},
+                {name: "B1+ unit2.2", start: 19, end: 20},
+                {name: "B1+ unit2.3", start: 21, end: 22},
+                {name: "B1+ unit2.4", start: 23, end: 24},
+                {name: "B1+ unit2.5", start: 25, end: 26},
+                // ... va hokazo (60 ta unit)
+            ],
+            workbook: [
+                {name: "B1+ unit1.1", start: 5, end: 6},
+                {name: "B1+ unit1.2", start: 7, end: 8},
+                {name: "B1+ unit1.3", start: 9, end: 9},
+                {name: "B1+ unit1.4", start: 10, end: 10},
+                {name: "B1+ unit2.1", start: 11, end: 12},
+                {name: "B1+ unit2.2", start: 13, end: 14},
+                {name: "B1+ unit2.3", start: 15, end: 15},
+                {name: "B1+ unit2.4", start: 16, end: 16},
+                {name: "B1+ unit2.5", start: 17, end: 18},
+                // ... va hokazo (49 ta unit)
+            ]
+        };
+
+        // Sahifa yuklanganda unitlarni ko'rsatish
+        document.addEventListener('DOMContentLoaded', function() {
+            displayUnits('coursebook');
+            displayUnits('workbook');
+        });
+
+        function displayUnits(type) {
+            const container = document.getElementById(type + '-units');
+            const units = unitData[type];
+            
+            // Faqat birinchi 20 ta unitni ko'rsatish (demo uchun)
+            const displayUnits = units.slice(0, 20);
+            
+            container.innerHTML = displayUnits.map(unit => `
+                <div class="unit-item" onclick="selectUnit('${unit.name}')">
+                    <div class="unit-name">${unit.name}</div>
+                    <div class="unit-pages">Sahifalar: ${unit.start}-${unit.end}</div>
+                </div>
+            `).join('');
+            
+            // Agar ko'proq unitlar bo'lsa
+            if (units.length > 20) {
+                container.innerHTML += `
+                    <div class="unit-item" style="opacity: 0.7; font-style: italic;">
+                        <div class="unit-name">... va yana ${units.length - 20} ta unit</div>
+                        <div class="unit-pages">Jami: ${units.length} ta unit</div>
+                    </div>
+                `;
+            }
+        }
+
+        function showTab(tabName) {
+            // Barcha tablarni yashirish
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Barcha tugmalarni deaktiv qilish
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Tanlangan tabni ko'rsatish
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function selectUnit(unitName) {
+            alert(`${unitName} tanlandi!\n\nHaqiqiy dasturda bu unit alohida PDF qilib yuklab olinadi.`);
+        }
+
+        function downloadDemo() {
+            alert('Demo versiyasida fayl yuklab olish mumkin emas.\n\nTo\'liq versiyani GitHub dan yuklab oling:\n- main.py (Terminal version)\n- server.py (Web version)\n- index.html (Web interfeys)');
+        }
+
+        function showInstructions() {
+            alert('To\'liq ko\'rsatma:\n\n1. Python 3.7+ o\'rnating\n2. pip install PyPDF2 Flask Flask-CORS\n3. coursebook.pdf va workbook.pdf qo\'ying\n4. python main.py (Terminal) yoki python server.py (Web)\n\nBatafsil ma\'lumot README.md faylida.');
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Parallax effect for header
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.header');
+            header.style.transform = `translateY(${scrolled * 0.3}px)`;
+            header.style.opacity = 1 - scrolled / 500;
+        });
+
+        console.log('📚 PDF Unit Bo\'lish Dasturi Demo yuklandi!');
+        console.log('🎯 Bu demo versiya - to\'liq funksional versiya uchun main.py yoki server.py ishlatiladi');
+    </script>
+</body>
+</html>
